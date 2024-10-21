@@ -23,11 +23,9 @@ public class ChartDrawer extends JFrame {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        // 1. Общий график с тремя линиями
         JPanel combinedChartPanel = createCombinedChartPanel(dataSorted, dataReversed, dataPartial);
         tabbedPane.addTab("Общий график", combinedChartPanel);
 
-        // 2. Отдельные графики для каждого файла
         JPanel sortedChartPanel = createSingleChartPanel(dataSorted, "График отсортированных данных", Color.BLUE);
         tabbedPane.addTab("Отсортированные", sortedChartPanel);
 
@@ -37,35 +35,27 @@ public class ChartDrawer extends JFrame {
         JPanel partialChartPanel = createSingleChartPanel(dataPartial, "График частично отсортированных данных", Color.YELLOW);
         tabbedPane.addTab("Частично отсортированные", partialChartPanel);
 
-        // Добавляем панель с графиками в окно
         setContentPane(tabbedPane);
     }
 
-    // Метод для создания графика с тремя линиями
     private JPanel createCombinedChartPanel(List<double[]> dataSorted, List<double[]> dataReversed, List<double[]> dataPartial) {
         XYSeriesCollection dataset = new XYSeriesCollection();
 
-        // Добавляем данные из первого файла
         XYSeries sortedSeries = createSeries(dataSorted, "Отсортированные данные");
         dataset.addSeries(sortedSeries);
 
-        // Добавляем данные из второго файла
         XYSeries reversedSeries = createSeries(dataReversed, "Обратно отсортированные данные");
         dataset.addSeries(reversedSeries);
 
-        // Добавляем данные из третьего файла
         XYSeries partialSeries = createSeries(dataPartial, "Частично отсортированные данные");
         dataset.addSeries(partialSeries);
 
-        // Создаем график
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Общий график", "Размер массива", "Время", dataset, PlotOrientation.VERTICAL, true, true, false);
 
-        // Настраиваем рендерер для отображения точек и линий
         XYPlot plot = chart.getXYPlot();
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
-        // Настройка отображения линий и точек для каждой серии
         renderer.setSeriesShapesVisible(0, true);
         renderer.setSeriesLinesVisible(0, true);
         renderer.setSeriesShapesVisible(1, true);
@@ -73,7 +63,6 @@ public class ChartDrawer extends JFrame {
         renderer.setSeriesShapesVisible(2, true);
         renderer.setSeriesLinesVisible(2, true);
 
-        // Задаем разные цвета для каждой серии
         renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesPaint(1, Color.RED);
         renderer.setSeriesPaint(2, Color.YELLOW);
@@ -83,7 +72,6 @@ public class ChartDrawer extends JFrame {
         return new ChartPanel(chart);
     }
 
-    // Метод для создания отдельного графика для одной линии
     private JPanel createSingleChartPanel(List<double[]> data, String title, Color color) {
         XYSeriesCollection dataset = new XYSeriesCollection();
         XYSeries series = createSeries(data, title);
@@ -95,23 +83,20 @@ public class ChartDrawer extends JFrame {
         XYPlot plot = chart.getXYPlot();
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 
-        // Настраиваем рендерер для отображения точек и линий
         renderer.setSeriesShapesVisible(0, true);
         renderer.setSeriesLinesVisible(0, true);
 
-        // Настраиваем цвет линии и точек
         renderer.setSeriesPaint(0, color);
         plot.setRenderer(renderer);
 
         return new ChartPanel(chart);
     }
 
-    // Метод для создания серии данных для графика
     private XYSeries createSeries(List<double[]> data, String name) {
         XYSeries series = new XYSeries(name);
         for (double[] row : data) {
             if (row.length >= 2) {
-                series.add(row[0], row[1]);  // Предполагаем, что в строке два столбца: X и Y
+                series.add(row[0], row[1]);
             }
         }
         return series;
