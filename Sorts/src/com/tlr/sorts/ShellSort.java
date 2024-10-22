@@ -75,7 +75,9 @@ public class ShellSort {
 
         for (int i = 1; i <= n; i *= 2) { 
             for (int j = i; j <= n; j *= 3) {
-                gaps.add(j);
+                    if (!gaps.contains(j)) { 
+                    gaps.add(j);
+                }
             }
         }
 
