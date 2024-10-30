@@ -38,12 +38,7 @@ public class QuickSort {
 
     public static void main(String[] args) {
         int[] arr = {1, 45, 5, 6, 7 ,8};
-        System.out.println("Unsorted array: ");
-        printArray(arr);
-
         quickSort(arr, 0, arr.length - 1);
-
-        System.out.println("Sorted array: ");
         printArray(arr);
     }
 }
